@@ -28,7 +28,6 @@ wikipedia
 telethon==1.16.4
 spamwatch
 alphabet_detector
-pyrate-limiter==2.3.0
 nekos.py
 pymongo
 dnspython
