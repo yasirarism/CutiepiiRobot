@@ -51,4 +51,4 @@ google-api-python-client
 tswift
 instantmusic
 html2text
-pyrate_limiter
+pyrate-limiter
