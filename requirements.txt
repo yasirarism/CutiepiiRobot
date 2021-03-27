@@ -28,6 +28,7 @@ wikipedia
 telethon==1.16.4
 spamwatch
 alphabet_detector
+pyrate-limiter
 nekos.py
 pymongo
 dnspython
@@ -51,4 +52,3 @@ google-api-python-client
 tswift
 instantmusic
 html2text
-pyrate-limiter==2.3.0
