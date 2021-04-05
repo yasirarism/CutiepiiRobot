@@ -3,8 +3,7 @@ from typing import Union
 
 from future.utils import string_types
 from Cutiepii_Robot import dispatcher
-from Cutiepii_Robot.modules.helper_funcs.handlers import (CMD_STARTERS,
-                                                        SpamChecker)
+from Cutiepii_Robot.modules.helper_funcs.handlers import (CMD_STARTERS)
 from Cutiepii_Robot.modules.helper_funcs.misc import is_module_loaded
 from telegram import ParseMode, Update
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
@@ -55,8 +54,6 @@ if is_module_loaded(FILENAME):
                         if not (command[0].lower() in self.command and
                                 command[1].lower()
                                 == message.bot.username.lower()):
-                            return None
-                        if SpamChecker.check_user(update.effective_user.id):
                             return None
                         filter_result = self.filters(update)
                         if filter_result:
