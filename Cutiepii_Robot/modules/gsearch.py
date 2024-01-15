@@ -44,7 +44,7 @@ async def _(event):
     input_str = event.pattern_match.group(
         1
     )  # + " -inurl:(htm|html|php|pls|txt) intitle:index.of \"last modified\" (mkv|mp4|avi|epub|pdf|mp3)"
-    input_url = "https://bots.shrimadhavuk.me/search/?q={}".format(input_str)
+    input_url = f"https://bots.shrimadhavuk.me/search/?q={input_str}"
     headers = {"USER-AGENT": "UniBorg"}
     response = requests.get(input_url, headers=headers).json()
     output_str = " "
@@ -53,7 +53,5 @@ async def _(event):
         url = result.get("url")
         description = result.get("description")
         last = html2text.html2text(description)
-        output_str += "[{}]({})\n{}\n".format(text, url, last)
-    await event.reply(
-        "{}".format(output_str), link_preview=False, parse_mode="Markdown"
-    )
+        output_str += f"[{text}]({url})\n{last}\n"
+    await event.reply(f"{output_str}", link_preview=False, parse_mode="Markdown")

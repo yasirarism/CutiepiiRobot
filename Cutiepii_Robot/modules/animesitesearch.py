@@ -29,13 +29,47 @@ def site_search(update: Update, context: CallbackContext, site: str):
         message.reply_text("Give something to search")
         return
 
-    if site == "kaizoku":
+    if site == "animespot":
+        search_url = f"https://dubspotteam.blogspot.com/?q={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class': "title"}) 
+
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>Animespotdubber</code>: \n"
+        for entry in search_result:
+
+           if entry.text.strip() == "Nothing Found":
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeSpot</code>"
+                more_results = False
+                break
+
+           post_link = entry.a['href']
+           post_name = html.escape(entry.text.strip())
+           result += f"• <a href='{post_link}'>{post_name}</a>\n"
+
+    elif site == "animetm":
+        search_url = f"https://animetmdubbers.in/?s={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class': "title"}) 
+
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>Animetmdubber</code>: \n"
+        for entry in search_result:
+
+           if entry.text.strip() == "Nothing Found":
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
+                more_results = False
+                break
+
+           post_link = entry.a['href']
+           post_name = html.escape(entry.text.strip())
+           result += f"• <a href='{post_link}'>{post_name}</a>\n"
+
+    elif site == "kaizoku":
         search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {'class': "post-title"})
-
-        if search_result:
+        if search_result := soup.find_all("h2", {'class': "post-title"}):
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n"
             for entry in search_result:
                 post_link = "https://animekaizoku.com/" + entry.a['href']
@@ -62,43 +96,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
             post_link = entry.a['href']
             post_name = html.escape(entry.text.strip())
             result += f"• <a href='{post_link}'>{post_name}</a>\n"
-            
-    elif site == "animespot":
-        search_url = f"https://dubspotteam.blogspot.com/?q={search_query}"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {'class': "title"}) 
-        
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>Animespotdubber</code>: \n"
-        for entry in search_result:
-                 
-           if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeSpot</code>"
-                more_results = False
-                break
-                
-           post_link = entry.a['href']
-           post_name = html.escape(entry.text.strip())
-           result += f"• <a href='{post_link}'>{post_name}</a>\n"
-           
-    elif site == "animetm":
-        search_url = f"https://animetmdubbers.in/?s={search_query}"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {'class': "title"}) 
-        
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>Animetmdubber</code>: \n"
-        for entry in search_result:
-                 
-           if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
-                more_results = False
-                break
-                
-           post_link = entry.a['href']
-           post_name = html.escape(entry.text.strip())
-           result += f"• <a href='{post_link}'>{post_name}</a>\n"
-           
+
     buttons = [[InlineKeyboardButton("See all results", url=search_url)]]
 
     if more_results:

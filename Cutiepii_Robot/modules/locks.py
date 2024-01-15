@@ -157,8 +157,6 @@ def restr_members(bot,
                   other=False,
                   previews=False):
     for mem in members:
-        if mem.user in DRAGONS:
-            pass
         try:
             bot.restrict_chat_member(
                 chat_id,

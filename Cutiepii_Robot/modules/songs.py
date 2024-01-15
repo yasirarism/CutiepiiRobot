@@ -47,16 +47,13 @@ async def download_lyrics(v_url):
     if v_url.is_group:
         if (await is_register_admin(v_url.input_chat, v_url.message.sender_id)):
             pass
-        elif v_url.chat_id == iid and v_url.sender_id == userss:
-            pass
-        else:
+        elif v_url.chat_id != iid or v_url.sender_id != userss:
             return
     query = v_url.pattern_match.group(1)
     if not query:
         await v_url.reply("You haven't specified which song to look for!")
         return
-    song = Song.find_song(query)
-    if song:
+    if song := Song.find_song(query):
         if song.lyrics:
             reply = song.format()
         else:
